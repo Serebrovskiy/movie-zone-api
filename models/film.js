@@ -21,33 +21,33 @@ const filmSchema = new mongoose.Schema({
       message: 'Введите правильный URL',
     },
   },
-  genres: {
+  genres: [{
     type: String,
-    required: false,
-  },
+    // required: false,
+  }],
   country: {
     type: String,
-    required: false,
+    // required: false,
   },
   director: {
     type: String,
-    required: false,
+    // required: false,
   },
-  actors: {
+  actors: [{
     type: String,
-    required: false,
-  },
+    // required: false,
+  }],
   checked: {
     type: Boolean,
-    required: false,
+    // required: false,
   },
   totalRange: {
     type: Number,
-    required: false,
+    // required: false,
   },
   id: {
     type: Number,
-    required: false,
+    // required: false,
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,

@@ -7,8 +7,8 @@ module.exports.getAllFilms = (req, res) => {
 };
 
 module.exports.createFilm = (req, res) => {
-  // console.log(req.user);
-  // const { _id } = req.user;
+  console.log(req.user);
+  const { _id } = req.user;
   const {
     name,
     date,
@@ -18,8 +18,8 @@ module.exports.createFilm = (req, res) => {
     director,
     actors,
     checked,
-    totalRange,
-    id
+    //totalRange,
+    // id
   } = req.body;
 
   Film.create({
@@ -32,10 +32,11 @@ module.exports.createFilm = (req, res) => {
     actors,
     checked,
     totalRange: 0,
-    id
+    // id: 0,
+    owner: _id
   })  //,  owner: _id 
     .then((film) => {
-      res.send({ data: film });
+      res.send(film);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -47,11 +48,13 @@ module.exports.createFilm = (req, res) => {
 };
 
 module.exports.deleteFilm = (req, res) => {
+
   Film.findByIdAndRemove(req.params.id)
     // .orFail(new Error('NotValidId'))
     .then((film) => {
+      console.log(film)
       // if (card.owner.toString() === req.user._id) {
-      res.send({ data: film });
+      res.send(film);
       // } else {
       //   throw new Error('You cannot delete this card');
       // }
@@ -66,6 +69,8 @@ module.exports.deleteFilm = (req, res) => {
 };
 
 module.exports.updateFilm = (req, res) => {
+
+  console.log(req.body)
   const {
     name,
     date,
@@ -76,8 +81,13 @@ module.exports.updateFilm = (req, res) => {
     actors,
     checked,
     totalRange,
-    id
+    // id
   } = req.body;
+
+  console.log('req.body')
+  console.log(req.body)
+  console.log('name')
+  console.log(name)
 
   Film.findByIdAndUpdate(
     req.params.id,
@@ -91,15 +101,20 @@ module.exports.updateFilm = (req, res) => {
       actors,
       checked,
       totalRange,
-      id
+      // id
     },
+    // req.body,
     {
       new: true,
       runValidators: true,
       upsert: true,
     },
   )
-    .then((film) => res.send({ data: film }))
+    .then((film) => {
+      console.log('film')
+      console.log(film)
+      res.send(film)
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({ message: 'Переданы некорректные данные' });
