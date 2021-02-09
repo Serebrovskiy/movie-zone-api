@@ -10,7 +10,7 @@ const { message } = require('../utils/errorsMessages');
 router.post('/signup', validateCreateUser, createUser);
 router.post('/signin', validateLogin, login);
 
-router.use('/users', auth, usersRouter);
+router.use('/users', usersRouter);
 router.use('/films', filmsRouter);
 
 router.all('*', (req, res, next) => {

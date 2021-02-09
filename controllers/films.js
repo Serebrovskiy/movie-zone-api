@@ -1,9 +1,9 @@
 const Film = require('../models/film');
 
-module.exports.getAllFilms = (req, res) => {
+module.exports.getAllFilms = (req, res, next) => {
   Film.find({})
     .then((film) => res.status(200).send(film))
-    .catch(() => res.status(500).send({ message: 'На сервере произошла ошибка' }));
+    .catch(next);
 };
 
 module.exports.createFilm = (req, res) => {

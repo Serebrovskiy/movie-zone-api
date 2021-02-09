@@ -7,34 +7,28 @@ const UnauthorizedError = require('../errors/unauthorized-error');
 const { message } = require('../utils/errorsMessages');
 const { JWT_SECRET, NODE_ENV } = require('../config');
 
+//возвращаем всех юзеров
+module.exports.getAllUsers = (req, res, next) => {
+  User.find({})
+    .then((film) => res.status(200).send(film))
+    .catch(next);
+};
+
 // создаём пользователя
 module.exports.createUser = (req, res, next) => {
   const {
     email,
     password,
-    name,
+    userName,
   } = req.body;
 
+  console.log(req.body)
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       email,
       password: hash,
-      name,
-      ratingFilms: [
-        {
-          name: 'Интерстеллар',
-          date: '2014',
-          position: 1,
-          new: false
-        },
-        {
-          name: 'Начало',
-          date: '2010',
-          position: 2,
-          link: 'https://u.kanobu.ru/editor/images/28/b201e08b-d5ea-467b-bcb7-57b4f3a1cbc8.jpg',
-          new: true
-        },
-      ]
+      userName,
+      ratingFilms: []
     }))
     .then((user) => {
       console.log(user)
