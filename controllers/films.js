@@ -7,7 +7,7 @@ module.exports.getAllFilms = (req, res, next) => {
 };
 
 module.exports.createFilm = (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   const { _id } = req.user;
   const {
     name,
@@ -52,7 +52,7 @@ module.exports.deleteFilm = (req, res) => {
   Film.findByIdAndRemove(req.params.id)
     // .orFail(new Error('NotValidId'))
     .then((film) => {
-      console.log(film)
+      // console.log(film)
       // if (card.owner.toString() === req.user._id) {
       res.send(film);
       // } else {
@@ -70,7 +70,7 @@ module.exports.deleteFilm = (req, res) => {
 
 module.exports.updateFilm = (req, res) => {
 
-  console.log(req.body)
+  // console.log(req.body)
   const {
     name,
     date,
@@ -84,10 +84,10 @@ module.exports.updateFilm = (req, res) => {
     // id
   } = req.body;
 
-  console.log('req.body')
-  console.log(req.body)
-  console.log('name')
-  console.log(name)
+  // console.log('req.body')
+  // console.log(req.body)
+  // console.log('name')
+  // console.log(name)
 
   Film.findByIdAndUpdate(
     req.params.id,
@@ -111,8 +111,8 @@ module.exports.updateFilm = (req, res) => {
     },
   )
     .then((film) => {
-      console.log('film')
-      console.log(film)
+      // console.log('film')
+      // console.log(film)
       res.send(film)
     })
     .catch((err) => {

@@ -25,6 +25,22 @@ const userSchema = new mongoose.Schema({
     minlength: 2,
     maxlength: 30,
   },
+  avatar: {
+    type: String,
+    required: false,
+    minlength: 2,
+    validate: {
+      validator(value) {
+        return /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(value);
+      },
+      message: 'Введите правильный URL',
+    },
+  },
+  followings: [{
+    type: String,
+    required: false,
+    minlength: 15,
+  }],
   ratingFilms: [
     {
       name: {

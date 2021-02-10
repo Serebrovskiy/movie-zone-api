@@ -22,12 +22,12 @@ module.exports.createUser = (req, res, next) => {
     userName,
   } = req.body;
 
-  console.log(req.body)
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       email,
       password: hash,
       userName,
+      followings: [],
       ratingFilms: []
     }))
     .then((user) => {
@@ -85,7 +85,6 @@ module.exports.updateUser = (req, res) => {
       res.send(user.ratingFilms)
     })
     .catch((err) => {
-      console.log(err)
       if (err.name === 'ValidationError') {
         res.status(400).send({ message: 'Переданы некорректные данные' });
       } else {
@@ -93,6 +92,50 @@ module.exports.updateUser = (req, res) => {
       }
     });
 };
+
+module.exports.userAddFollowing = (req, res, next) => {
+  const followings = req.body;
+  // console.log(followings)
+
+  User.findByIdAndUpdate(
+    req.params.id,
+    { followings },
+    {
+      new: true,
+      runValidators: true,
+      upsert: true,
+    },
+  )
+    .then((user) => {
+      res.send(user.followings)
+    })
+    .catch(next);
+  // .catch((err) => {
+  //   if (err.name === 'ValidationError') {
+  //     res.status(400).send({ message: 'Переданы некорректные данные' });
+  //   } else {
+  //     res.status(500).send({ message: 'На сервере произошла ошибка' });
+  //   }
+  // });
+};
+
+
+module.exports.updateAvatar = (req, res, next) => {
+  const { avatar } = req.body;
+
+  User.findByIdAndUpdate(
+    req.params.id,
+    { avatar },
+    {
+      new: true,
+      runValidators: true,
+      upsert: true,
+    },
+  )
+    .then(user => res.send(user))
+    .catch(next);
+};
+
 
 //добавление карточки сразу в массив с карточками (не работает)
 // module.exports.createRatingFilm = (req, res) => {
