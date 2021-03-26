@@ -7,7 +7,7 @@ module.exports.getAllFilms = (req, res, next) => {
 };
 
 module.exports.createFilm = (req, res) => {
-  // console.log(req.user);
+  //console.log(req.user);
   const { _id } = req.user;
   const {
     name,
@@ -17,8 +17,7 @@ module.exports.createFilm = (req, res) => {
     country,
     director,
     actors,
-    checked,
-    //totalRange,
+    checked
     // id
   } = req.body;
 
@@ -36,6 +35,7 @@ module.exports.createFilm = (req, res) => {
     owner: _id
   })  //,  owner: _id 
     .then((film) => {
+      console.log(film);
       res.send(film);
     })
     .catch((err) => {
@@ -68,7 +68,7 @@ module.exports.deleteFilm = (req, res) => {
     });
 };
 
-module.exports.updateFilm = (req, res) => {
+module.exports.updateFilm = (req, res, next) => {
 
   // console.log(req.body)
   const {
@@ -115,11 +115,5 @@ module.exports.updateFilm = (req, res) => {
       // console.log(film)
       res.send(film)
     })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Переданы некорректные данные' });
-      } else {
-        res.status(500).send({ message: 'На сервере произошла ошибка' });
-      }
-    });
+    .catch(next);
 };

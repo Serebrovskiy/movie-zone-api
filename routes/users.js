@@ -7,7 +7,8 @@ const {
   getCurrentUser,
   updateUser,
   userAddFollowing,
-  updateAvatar
+  updateAvatar,
+  updateSocialLinks
 } = require('../controllers/users');
 
 router.get('/', getAllUsers);
@@ -16,5 +17,6 @@ router.get('/me', auth, getCurrentUser);
 router.patch('/:id', auth, updateUser);
 router.patch('/followings/:id', auth, userAddFollowing);
 router.patch('/avatar/:id', auth, updateAvatar);
+router.patch('/social-links/:id', auth, updateSocialLinks);
 
 module.exports = router;

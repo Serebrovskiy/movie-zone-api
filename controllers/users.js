@@ -28,7 +28,10 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
       userName,
       followings: [],
-      ratingFilms: []
+      ratingFilms: [],
+      socialLinks: []
+      // socialLinks: ["", "", "", ""]
+
     }))
     .then((user) => {
       console.log(user)
@@ -69,7 +72,7 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 // обнавляем массив с карточками в юзере
-module.exports.updateUser = (req, res) => {
+module.exports.updateUser = (req, res, next) => {
   const ratingFilms = req.body;
 
   User.findByIdAndUpdate(
@@ -84,13 +87,7 @@ module.exports.updateUser = (req, res) => {
     .then((user) => {
       res.send(user.ratingFilms)
     })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Переданы некорректные данные' });
-      } else {
-        res.status(500).send({ message: 'На сервере произошла ошибка' });
-      }
-    });
+    .catch(next);
 };
 
 module.exports.userAddFollowing = (req, res, next) => {
@@ -133,6 +130,26 @@ module.exports.updateAvatar = (req, res, next) => {
     },
   )
     .then(user => res.send(user))
+    .catch(next);
+};
+
+module.exports.updateSocialLinks = (req, res, next) => {
+  const socialLinks = req.body;
+  // console.log(socialLinks)
+
+  User.findByIdAndUpdate(
+    req.params.id,
+    { socialLinks },
+    {
+      new: true,
+      runValidators: false,
+      upsert: true,
+    },
+  )
+    .then(user => {
+      console.log(user)
+      res.send(user)
+    })
     .catch(next);
 };
 
