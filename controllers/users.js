@@ -153,6 +153,16 @@ module.exports.updateSocialLinks = (req, res, next) => {
     .catch(next);
 };
 
+module.exports.deleteUser = (req, res, next) => {
+
+  User.findByIdAndRemove(req.params.id)
+    // .orFail(new Error('NotValidId'))
+    .then((user) => {
+      res.send(user);
+    })
+    .catch(next);
+};
+
 
 //добавление карточки сразу в массив с карточками (не работает)
 // module.exports.createRatingFilm = (req, res) => {

@@ -6,6 +6,14 @@ module.exports.getAllFilms = (req, res, next) => {
     .catch(next);
 };
 
+
+module.exports.getFilm = (req, res, next) => {
+  Film.findById(req.params.id)
+    .then((film) => res.status(200).send(film))
+    .catch(next);
+};
+
+
 module.exports.createFilm = (req, res) => {
   //console.log(req.user);
   const { _id } = req.user;

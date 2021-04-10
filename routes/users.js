@@ -8,7 +8,8 @@ const {
   updateUser,
   userAddFollowing,
   updateAvatar,
-  updateSocialLinks
+  updateSocialLinks,
+  deleteUser
 } = require('../controllers/users');
 
 router.get('/', getAllUsers);
@@ -18,5 +19,6 @@ router.patch('/:id', auth, updateUser);
 router.patch('/followings/:id', auth, userAddFollowing);
 router.patch('/avatar/:id', auth, updateAvatar);
 router.patch('/social-links/:id', auth, updateSocialLinks);
+router.delete('/:id', auth, deleteUser);
 
 module.exports = router;
